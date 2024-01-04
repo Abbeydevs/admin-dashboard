@@ -11,7 +11,9 @@ import { Category, Color, Image, Product, Size } from "@prisma/client";
 import { useParams, useRouter } from "next/navigation";
 
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+``;
 import {
   Form,
   FormControl,
@@ -36,6 +38,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 const formSchema = z.object({
   name: z.string().min(1),
+  description: z.string().min(1),
   images: z.object({ url: z.string() }).array(),
   price: z.coerce.number().min(1),
   categoryId: z.string().min(1),
@@ -82,6 +85,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       }
     : {
         name: "",
+        description: "",
         images: [],
         price: 0,
         categoryId: "",
@@ -99,6 +103,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   const onSubmit = async (data: ProductFormValues) => {
     try {
       setLoading(true);
+      console.log("Form Data:", data);
       if (initialData) {
         await axios.patch(
           `/api/${params.storeId}/products/${params.productId}`,
@@ -140,7 +145,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         onConfirm={onDelete}
         loading={loading}
       />
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between pt-16">
         <Heading title={title} description={description} />
         {initialData && (
           <Button
@@ -194,6 +199,23 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                     <Input
                       disabled={loading}
                       placeholder="Product name"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Description</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={loading}
+                      placeholder="Product description"
                       {...field}
                     />
                   </FormControl>

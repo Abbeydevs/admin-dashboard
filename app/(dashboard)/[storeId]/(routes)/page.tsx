@@ -6,7 +6,6 @@ import { Overview } from "@/components/overview";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-import prismadb from "@/lib/prismadb";
 import { formatter } from "@/lib/utils";
 import { CreditCard, DollarSign, Package } from "lucide-react";
 
@@ -21,7 +20,7 @@ const DashboardPage: React.FC<DashboardPageProps> = async ({ params }) => {
   const graphRevenue = await getGraphRevenue(params.storeId);
 
   return (
-    <div className="flex-col">
+    <div className="flex-col pt-16">
       <div className="flex-1 space-y-4 p-8 pt-6">
         <Heading title="Dashbaord" description="Overview of your Store" />
         <Separator />
